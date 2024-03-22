@@ -15,65 +15,44 @@ import { Input } from '@/components/ui/input'
 import Image from 'next/image'
 import Link from 'next/link'
 import axios from 'axios'
-import { toast } from 'react-toastify'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-// Form Schema for registration form
+// Form Schema for login form
 const formSchema = z.object({
-	firstName: z.string(),
-	lastName: z.string(),
 	email: z.string().email({ message: 'Invalid email address' }),
 	password: z
 		.string()
 		.min(4, { message: 'Password must be at least 8 characters' }),
-	confirmPassword: z
-		.string()
-		.min(4, { message: 'Password must be at least 8 characters' }),
 })
 
-const Registration = () => {
+const Login = () => {
 	const router = useRouter()
-
 	// Initialize the form
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			firstName: '',
-			lastName: '',
 			email: '',
 			password: '',
-			confirmPassword: '',
 		},
 	})
 
 	// Handle form submission
 	const handleFormSubmit = async (values: z.infer<typeof formSchema>) => {
-		const { firstName, lastName, email, password, confirmPassword } = values
-
-		if (password !== confirmPassword) {
-			toast.error("Passwords don't match")
-		}
+		const { email, password } = values
 
 		const { data } = await axios.post(
-			`${process.env.NEXT_PUBLIC_SERVER_URL}/users/registration`,
+			`${process.env.NEXT_PUBLIC_SERVER_URL}/users/login`,
 			{
-				firstName,
-				lastName,
 				email,
 				password,
-				role: 'buyer',
 			}
 		)
 
+		// If log in is successful, store token in local storage
 		if (data.success) {
-			toast.success(
-				'Registration successful. You will be redirected to Login page.'
-			)
-			setTimeout(() => {
-				window.location.href = '/login'
-			}, 3_000)
-		} else {
+			localStorage.setItem('token', data.token)
+			window.location.href = '/'
 		}
 	}
 
@@ -85,7 +64,7 @@ const Registration = () => {
 	}, [router])
 
 	return (
-		<div className='grid place-content-center h-screen '>
+		<div className='grid place-content-center h-screen'>
 			<Image
 				src='/logo.png'
 				alt='logo'
@@ -94,42 +73,13 @@ const Registration = () => {
 				className='mx-auto'
 			/>
 			<h1 className='text-2xl font-light text-center mb-4'>
-				Welcome to ShipShop :D
+				Welcome Back :)
 			</h1>
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(handleFormSubmit)}
 					className='space-y-2 w-64 md:w-80'
 				>
-					<div className='flex gap-2 md:flex-row flex-col'>
-						<FormField
-							control={form.control}
-							name='firstName'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>First Name</FormLabel>
-									<FormControl>
-										<Input
-											placeholder='Enter first name'
-											{...field}
-										/>
-									</FormControl>
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name='lastName'
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Last Name</FormLabel>
-									<FormControl>
-										<Input placeholder='Enter last name' {...field} />
-									</FormControl>
-								</FormItem>
-							)}
-						/>
-					</div>
 					<FormField
 						control={form.control}
 						name='email'
@@ -162,30 +112,15 @@ const Registration = () => {
 							</FormItem>
 						)}
 					/>
-					<FormField
-						control={form.control}
-						name='confirmPassword'
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Confirm Password</FormLabel>
-								<FormControl>
-									<Input
-										placeholder='Confirm Password'
-										type='password'
-										{...field}
-									/>
-								</FormControl>
-							</FormItem>
-						)}
-					/>
+
 					<Link
-						href={'/login'}
+						href={'/registration'}
 						className='text-emerald-700 text-xs md:text-right block cursor-pointer hover:text-emerald-900 duration-150'
 					>
-						Already have an account? Log in!
+						Don&apos;t have an account? Sign up!
 					</Link>
 					<Button className='ml-auto' type='submit'>
-						Sign Up
+						Log In
 					</Button>
 				</form>
 			</Form>
@@ -193,4 +128,4 @@ const Registration = () => {
 	)
 }
 
-export default Registration
+export default Login
