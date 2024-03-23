@@ -1,6 +1,6 @@
 'use client'
 
-import { ShoppingCartIcon } from 'lucide-react'
+import { ShoppingCartIcon, Search } from 'lucide-react'
 import { Button } from '../button'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -8,6 +8,7 @@ import { jwtDecode } from 'jwt-decode'
 import Logo from './Logo'
 import SearchBar from './SearchBar'
 import UserButton from './UserButton'
+import SearchBarMobile from './SearchBarMobile'
 
 // Interface for decoded token
 interface DecodedToken {
@@ -20,6 +21,7 @@ interface DecodedToken {
 
 const Header = () => {
 	const [token, setToken] = useState<string>('')
+	const [showSearchBar, setShowSearchBar] = useState<boolean>(false)
 	const router = useRouter()
 
 	useEffect(() => {
@@ -58,23 +60,30 @@ const Header = () => {
 	}
 
 	return (
-		<header className='sticky top-0 z-50 flex items-center justify-center gap-24 py-1 bg-violet-950'>
-			<Logo />
-			<SearchBar />
-			<div className='flex items-center gap-4'>
-				{token ? (
-					<UserButton token={token} />
-				) : (
-					<Button
-						variant='success'
-						size={'sm'}
-						onClick={() => router.push('/login')}
-					>
-						Login
-					</Button>
-				)}
-				<ShoppingCartIcon className='duration-200 cursor-pointer text-violet-50 hover:text-violet-300' />
+		<header className='sticky top-0 z-50 grid gap-2 py-1 bg-violet-950'>
+			<div className='flex items-center justify-between px-2 md:justify-center md:gap-24'>
+				<Logo />
+				<SearchBar />
+				<div className='flex items-center gap-4 md:gap-4'>
+					<Search
+						className='duration-200 cursor-pointer md:hidden text-violet-50 hover:text-violet-300'
+						onClick={() => setShowSearchBar(!showSearchBar)}
+					/>
+					{token ? (
+						<UserButton token={token} />
+					) : (
+						<Button
+							variant='success'
+							size={'sm'}
+							onClick={() => router.push('/login')}
+						>
+							Login
+						</Button>
+					)}
+					<ShoppingCartIcon className='duration-200 cursor-pointer text-violet-50 hover:text-violet-300' />
+				</div>
 			</div>
+			<SearchBarMobile showSearchBar={showSearchBar} />
 		</header>
 	)
 }

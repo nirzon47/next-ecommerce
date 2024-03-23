@@ -3,7 +3,7 @@ import { Search } from 'lucide-react'
 const SearchBar = () => {
 	return (
 		<form
-			className='flex items-center px-4 bg-white rounded-full'
+			className='items-center hidden px-4 bg-white rounded-full md:flex'
 			onSubmit={(e) => {
 				e.preventDefault()
 				console.log('hi')
@@ -11,7 +11,7 @@ const SearchBar = () => {
 		>
 			<input
 				type='text'
-				className='w-96 py-1.5 pl-2 outline-none placeholder:text-sm'
+				className='md:w-64 lg:w-96 py-1.5 pl-2 outline-none placeholder:text-sm'
 				placeholder='Search products'
 			/>
 			<button type='submit'>
