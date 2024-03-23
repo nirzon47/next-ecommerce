@@ -49,31 +49,37 @@ const Registration = () => {
 
 	// Handle form submission
 	const handleFormSubmit = async (values: z.infer<typeof formSchema>) => {
-		const { firstName, lastName, email, password, confirmPassword } = values
+		try {
+			const { firstName, lastName, email, password, confirmPassword } =
+				values
 
-		if (password !== confirmPassword) {
-			toast.error("Passwords don't match")
-		}
-
-		const { data } = await axios.post(
-			`${process.env.NEXT_PUBLIC_SERVER_URL}/users/registration`,
-			{
-				firstName,
-				lastName,
-				email,
-				password,
-				role: 'buyer',
+			if (password !== confirmPassword) {
+				toast.error("Passwords don't match")
 			}
-		)
 
-		if (data.success) {
-			toast.success(
-				'Registration successful. You will be redirected to Login page.'
+			const { data } = await axios.post(
+				`${process.env.NEXT_PUBLIC_SERVER_URL}/users/registration`,
+				{
+					firstName,
+					lastName,
+					email,
+					password,
+					role: 'buyer',
+				}
 			)
-			setTimeout(() => {
-				window.location.href = '/login'
-			}, 3_000)
-		} else {
+
+			if (data.success) {
+				toast.success(
+					'Registration successful. You will be redirected to Login page.'
+				)
+				setTimeout(() => {
+					window.location.href = '/login'
+				}, 3_000)
+			} else {
+				toast.error(data.message)
+			}
+		} catch (error) {
+			toast.error('Try again')
 		}
 	}
 
@@ -85,7 +91,7 @@ const Registration = () => {
 	}, [router])
 
 	return (
-		<div className='grid place-content-center h-screen '>
+		<div className='grid h-screen place-content-center '>
 			<Image
 				src='/logo.png'
 				alt='logo'
@@ -93,15 +99,15 @@ const Registration = () => {
 				height={80}
 				className='mx-auto'
 			/>
-			<h1 className='text-2xl font-light text-center mb-4'>
+			<h1 className='mb-4 text-2xl font-light text-center'>
 				Welcome to ShipShop :D
 			</h1>
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(handleFormSubmit)}
-					className='space-y-2 w-64 md:w-80'
+					className='w-64 space-y-2 md:w-80'
 				>
-					<div className='flex gap-2 md:flex-row flex-col'>
+					<div className='flex flex-col gap-2 md:flex-row'>
 						<FormField
 							control={form.control}
 							name='firstName'
@@ -180,7 +186,7 @@ const Registration = () => {
 					/>
 					<Link
 						href={'/login'}
-						className='text-emerald-700 text-xs md:text-right block cursor-pointer hover:text-emerald-900 duration-150'
+						className='block text-xs duration-150 cursor-pointer text-violet-700 md:text-right hover:text-violet-900'
 					>
 						Already have an account? Log in!
 					</Link>

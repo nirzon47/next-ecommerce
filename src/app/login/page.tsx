@@ -17,6 +17,7 @@ import Link from 'next/link'
 import axios from 'axios'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 
 // Form Schema for login form
 const formSchema = z.object({
@@ -39,20 +40,24 @@ const Login = () => {
 
 	// Handle form submission
 	const handleFormSubmit = async (values: z.infer<typeof formSchema>) => {
-		const { email, password } = values
+		try {
+			const { email, password } = values
 
-		const { data } = await axios.post(
-			`${process.env.NEXT_PUBLIC_SERVER_URL}/users/login`,
-			{
-				email,
-				password,
+			const { data } = await axios.post(
+				`${process.env.NEXT_PUBLIC_SERVER_URL}/users/login`,
+				{
+					email,
+					password,
+				}
+			)
+
+			// If log in is successful, store token in local storage
+			if (data.success) {
+				localStorage.setItem('token', data.token)
+				window.location.href = '/'
 			}
-		)
-
-		// If log in is successful, store token in local storage
-		if (data.success) {
-			localStorage.setItem('token', data.token)
-			window.location.href = '/'
+		} catch (error) {
+			toast.error('Invalid email or password')
 		}
 	}
 
@@ -64,7 +69,7 @@ const Login = () => {
 	}, [router])
 
 	return (
-		<div className='grid place-content-center h-screen'>
+		<div className='grid h-screen place-content-center'>
 			<Image
 				src='/logo.png'
 				alt='logo'
@@ -72,13 +77,13 @@ const Login = () => {
 				height={80}
 				className='mx-auto'
 			/>
-			<h1 className='text-2xl font-light text-center mb-4'>
+			<h1 className='mb-4 text-2xl font-light text-center'>
 				Welcome Back :)
 			</h1>
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(handleFormSubmit)}
-					className='space-y-2 w-64 md:w-80'
+					className='w-64 space-y-2 md:w-80'
 				>
 					<FormField
 						control={form.control}
@@ -115,7 +120,7 @@ const Login = () => {
 
 					<Link
 						href={'/registration'}
-						className='text-emerald-700 text-xs md:text-right block cursor-pointer hover:text-emerald-900 duration-150'
+						className='block text-xs duration-150 cursor-pointer text-violet-700 md:text-right hover:text-violet-900'
 					>
 						Don&apos;t have an account? Sign up!
 					</Link>
