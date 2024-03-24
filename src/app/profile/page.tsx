@@ -4,11 +4,10 @@ import Header from '@/components/Header/Header'
 import { useEffect, useState } from 'react'
 import { jwtDecode } from 'jwt-decode'
 import { DecodedToken } from '@/lib/types'
-import OrderHistory from '@/components/User/OrderHistory'
 
 const Profile = () => {
 	const [user, setUser] = useState<any>({})
-	const [token, setToken] = useState<string>('')
+
 	// Validate token
 	useEffect(() => {
 		let token: string = ''
@@ -23,7 +22,6 @@ const Profile = () => {
 		} else {
 			const decodedToken = jwtDecode<DecodedToken>(token)
 			setUser(decodedToken)
-			setToken(token)
 
 			const isExpired =
 				decodedToken.exp && decodedToken.exp < Date.now() / 1000
@@ -46,7 +44,6 @@ const Profile = () => {
 				<h2 className='mx-6 md:mx-12 text-2xl md:text-3xl lg:text-4xl'>
 					Hello, {user?.name} 👋
 				</h2>
-				{token && <OrderHistory token={token} />}
 			</main>
 		</div>
 	)

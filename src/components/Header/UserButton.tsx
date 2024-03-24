@@ -58,6 +58,14 @@ const UserButton = ({ token }: { token: string }) => {
 				>
 					Profile
 				</DropdownMenuItem>
+				<DropdownMenuItem
+					className='cursor-pointer'
+					onClick={() => {
+						router.push('/orders')
+					}}
+				>
+					Orders
+				</DropdownMenuItem>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem
 					onClick={handleLogout}

@@ -31,7 +31,6 @@ const OrderHistory = ({ token }: { token: string }) => {
 
 	return (
 		<div className='mx-6 md:mx-12 my-6'>
-			<h2 className='text-2xl text-violet-950'>Your Orders</h2>
 			{orders?.data ? (
 				<div className='my-4 space-y-4'>
 					{orders.data.orders.map((order) => (
