@@ -1,7 +1,7 @@
 'use client'
 
 import { ShoppingCartIcon, Search } from 'lucide-react'
-import { Button } from '../button'
+import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { jwtDecode } from 'jwt-decode'
@@ -9,15 +9,7 @@ import Logo from './Logo'
 import SearchBar from './SearchBar'
 import UserButton from './UserButton'
 import SearchBarMobile from './SearchBarMobile'
-
-// Interface for decoded token
-interface DecodedToken {
-	_id: string
-	email: string
-	role: string
-	exp: number
-	iat: number
-}
+import { DecodedToken } from '@/lib/types'
 
 const Header = () => {
 	const [token, setToken] = useState<string>('')
