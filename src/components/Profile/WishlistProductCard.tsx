@@ -17,7 +17,7 @@ const WishlistProductCard = ({ product }: { product: any }) => {
 				alt={product.name}
 				width={200}
 				height={200}
-				className='object-cover w-20 h-20 rounded-md'
+				className='object-cover w-16 h-16 rounded-md lg:w-20 lg:h-20'
 			/>
 			<div className='flex items-center justify-between w-full'>
 				<div>
@@ -29,7 +29,7 @@ const WishlistProductCard = ({ product }: { product: any }) => {
 					<TooltipProvider>
 						<Tooltip>
 							<TooltipTrigger>
-								<a className='grid w-10 h-10 duration-200 rounded-full cursor-pointer bg-violet-800 place-content-center hover:bg-violet-600'>
+								<a className='grid w-10 h-10 duration-200 rounded-full cursor-pointer lg:scale-100 md:scale-90 bg-violet-800 place-content-center hover:bg-violet-600'>
 									<ShoppingBagIcon className='text-white' />
 								</a>
 							</TooltipTrigger>
@@ -41,7 +41,7 @@ const WishlistProductCard = ({ product }: { product: any }) => {
 					<TooltipProvider>
 						<Tooltip>
 							<TooltipTrigger>
-								<a className='grid w-10 h-10 duration-200 bg-red-500 rounded-full cursor-pointer place-content-center hover:bg-red-600'>
+								<a className='grid w-10 h-10 duration-200 bg-red-500 rounded-full cursor-pointer lg:scale-100 md:scale-90 place-content-center hover:bg-red-600'>
 									<Trash className='text-white' />
 								</a>
 							</TooltipTrigger>
