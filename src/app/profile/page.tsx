@@ -4,9 +4,11 @@ import Header from '@/components/Header/Header'
 import { useEffect, useState } from 'react'
 import { jwtDecode } from 'jwt-decode'
 import { DecodedToken } from '@/lib/types'
+import AddressForm from '@/components/Profile/AddressForm'
 
 const Profile = () => {
 	const [user, setUser] = useState<any>({})
+	const [address, setAddress] = useState<any>({})
 
 	// Validate token
 	useEffect(() => {
@@ -44,6 +46,10 @@ const Profile = () => {
 				<h2 className='mx-6 md:mx-12 text-2xl md:text-3xl lg:text-4xl'>
 					Hello, {user?.name} 👋
 				</h2>
+				<h2 className='mx-6 md:mx-12 text-lg md:text-xl lg:text-2xl my-2 mt-4 font-semibold text-violet-900'>
+					Addresses
+				</h2>
+				<AddressForm />
 			</main>
 		</div>
 	)
