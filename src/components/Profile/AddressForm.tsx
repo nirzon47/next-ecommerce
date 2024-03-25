@@ -66,6 +66,38 @@ const AddressForm = () => {
 		getAddress()
 	}, [getAddress])
 
+	const handleAddressChange = async (e: any) => {
+		e.preventDefault()
+
+		const formData: any = form.getValues()
+		for (const key in formData) {
+			if (formData[key] === '') {
+				toast.error('Please fill in all fields')
+				return
+			}
+		}
+
+		try {
+			await axios.post(
+				process.env.NEXT_PUBLIC_SERVER_URL + '/users/address',
+				form.getValues(),
+				{
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('token')}`,
+					},
+				}
+			)
+
+			if (hasAddress) {
+				toast.success('Address updated successfully')
+			} else {
+				toast.success('Address added successfully')
+			}
+		} catch (error: Error | any) {
+			toast.error(error.response.data.message)
+		}
+	}
+
 	return (
 		<section className='mt-6'>
 			<Form {...form}>
@@ -167,7 +199,7 @@ const AddressForm = () => {
 							)}
 						/>
 					</div>
-					<Button type='submit'>
+					<Button type='submit' onClick={handleAddressChange}>
 						{!hasAddress ? 'Add Address' : 'Update Address'}
 					</Button>
 				</form>
