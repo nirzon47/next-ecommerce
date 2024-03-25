@@ -4,8 +4,8 @@ import { Button } from '../ui/button'
 const OrderCardBody = ({ order }: { order: any }) => {
 	return (
 		<div className='border-b border-r border-l rounded-br-md rounded-bl-md border-violet-100 px-8 py-6'>
-			<div className='flex justify-between items-center'>
-				<div className='flex gap-4'>
+			<div className='flex justify-center md:justify-between items-center'>
+				<div className='gap-4 hidden md:flex'>
 					{order.cart.products.map((product: any) => (
 						<div key={product._id} className='relative'>
 							<Image
