@@ -102,13 +102,13 @@ const AddressForm = () => {
 		<section className='mt-6'>
 			<Form {...form}>
 				{!hasAddress && (
-					<p className='mx-6 md:mx-12 my-4 text-lg'>
+					<p className='mx-6 my-4 text-lg md:mx-12'>
 						Oops, you don&apos;t have an address saved. Now is a great
 						time to add one!
 					</p>
 				)}
 
-				<form className='mx-6 md:mx-12 space-y-4'>
+				<form className='space-y-4'>
 					<div className='flex gap-4'>
 						<FormField
 							control={form.control}

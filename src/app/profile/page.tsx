@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { validateToken } from '@/lib/tokenValidator'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
+import Wishlist from '@/components/Profile/Wishlist'
 
 const Profile = () => {
 	const [user, setUser] = useState<any>({})
@@ -22,30 +23,39 @@ const Profile = () => {
 	return (
 		<div className='relative min-h-screen'>
 			<Header />
-			<main className='flex flex-col gap-6 md:flex-row md:gap-12 lg:gap-28'>
-				<section>
-					<h1 className='text-xl md:text-2xl lg:text-3xl m-6 md:m-12 font-bold text-violet-950'>
+			<main className='grid items-start justify-center gap-6 px-24 py-16 md:grid-cols-3 md:gap-16'>
+				<section className='space-y-6'>
+					<h1 className='text-xl font-bold md:text-2xl lg:text-3xl text-violet-950'>
 						Your Profile
 					</h1>
-					<h2 className='mx-6 md:mx-12 text-2xl md:text-3xl lg:text-4xl'>
+					<h2 className='font-mono text-2xl md:text-3xl lg:text-4xl'>
 						Hello, {user?.name} 👋
 					</h2>
-					<h2 className='mx-6 md:mx-12 text-lg md:text-xl lg:text-2xl my-2 mt-4 font-semibold text-violet-900'>
-						Addresses
+					<h2 className='my-2 mt-4 text-lg font-semibold md:text-xl lg:text-2xl text-violet-900'>
+						Address
 					</h2>
 					<AddressForm />
 				</section>
-				<section>
-					<h2 className='text-xl md:text-2xl lg:text-3xl m-6 md:m-12 font-bold text-violet-950'>
+				<section className='space-y-6'>
+					<h2 className='text-xl font-bold text-center md:text-2xl lg:text-3xl text-violet-950'>
+						Your Wishlist
+					</h2>
+					<Wishlist />
+				</section>
+				<section className='space-y-6'>
+					<h2 className='text-xl font-bold text-right md:text-2xl lg:text-3xl text-violet-950'>
 						Your Orders
 					</h2>
-					<Button
-						className='mx-6 md:mx-12 mb-8'
-						onClick={() => router.push('/orders')}
-						variant={'link'}
-					>
-						Order Page
-					</Button>
+
+					<p className='text-right'>
+						<a
+							className='inline-block duration-200 text-violet-800 hover:text-violet-600 hover:underline underline-offset-4'
+							onClick={() => router.push('/orders')}
+							href='/orders'
+						>
+							Order Page
+						</a>
+					</p>
 				</section>
 			</main>
 		</div>
