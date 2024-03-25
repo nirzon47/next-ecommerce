@@ -1,38 +1,18 @@
 'use client'
 
 import Header from '@/components/Header/Header'
-import { useEffect, useState } from 'react'
-import { jwtDecode } from 'jwt-decode'
-import { DecodedToken } from '@/lib/types'
 import AddressForm from '@/components/Profile/AddressForm'
+import { useEffect, useState } from 'react'
+import { validateToken } from '@/lib/tokenValidator'
 
 const Profile = () => {
 	const [user, setUser] = useState<any>({})
-	const [address, setAddress] = useState<any>({})
 
 	// Validate token
 	useEffect(() => {
-		let token: string = ''
-		// Get token from local storage
-		if (typeof window !== 'undefined') {
-			token = localStorage.getItem('token') || ''
-		}
-
-		// If no token, redirect to login
-		if (!token) {
-			window.location.href = '/login'
-		} else {
-			const decodedToken = jwtDecode<DecodedToken>(token)
+		const decodedToken = validateToken()
+		if (decodedToken) {
 			setUser(decodedToken)
-
-			const isExpired =
-				decodedToken.exp && decodedToken.exp < Date.now() / 1000
-
-			// If token is expired, remove it from local storage and reload the page
-			if (isExpired) {
-				localStorage.removeItem('token')
-				window.location.href = '/login'
-			}
 		}
 	}, [])
 

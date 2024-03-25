@@ -2,6 +2,7 @@
 
 import Header from '@/components/Header/Header'
 import OrderHistory from '@/components/Orders/OrderHistory'
+import { validateToken } from '@/lib/tokenValidator'
 import { useEffect, useState } from 'react'
 
 const Orders = () => {
@@ -11,6 +12,9 @@ const Orders = () => {
 		// Get token from local storage
 		const savedToken = localStorage.getItem('token') || ''
 		setToken(savedToken)
+
+		// Validate token
+		validateToken()
 	}, [token])
 
 	return (
