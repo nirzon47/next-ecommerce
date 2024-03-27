@@ -89,7 +89,7 @@ const CartItem = ({ item }: { item: any }) => {
 
 	return (
 		<div className='flex items-center justify-between'>
-			<div className='flex gap-8'>
+			<div className='flex items-center md:gap-8'>
 				<Image
 					src={`${process.env.NEXT_PUBLIC_SERVER}/${item.item.imagePath}`}
 					alt={item.item.name}
@@ -97,14 +97,16 @@ const CartItem = ({ item }: { item: any }) => {
 					height={100}
 					className='object-cover w-20 h-20 rounded-md lg:w-24 lg:h-24'
 				/>
-				<div className='flex items-center gap-12'>
+				<div className='flex flex-col items-center md:flex-row md:gap-12'>
 					<div className='grid gap-2 p-4 w-36'>
-						<h2 className='text-lg font-semibold text-violet-900'>
+						<h2 className='font-semibold md:text-lg text-violet-900'>
 							{item.item.name}
 						</h2>
-						<p className='text-zinc-500'>₹{item.item.price}</p>
+						<p className='text-sm md:text-base text-zinc-500'>
+							₹{item.item.price}
+						</p>
 					</div>
-					<div className='flex gap-4'>
+					<div className='flex gap-2 md:gap-4'>
 						<Select onValueChange={changeQuantity}>
 							<SelectTrigger className='w-20'>
 								<SelectValue

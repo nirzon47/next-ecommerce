@@ -5,6 +5,7 @@ import { useCallback, useEffect } from 'react'
 import CartItem from './CartItem'
 import { useAppDispatch, useAppSelector } from '@/app/store/store'
 import { setCart, setCartTotal } from '@/app/store/cartSlice'
+import { Button } from '../ui/button'
 
 const CartBody = () => {
 	const cart = useAppSelector((state) => state.cart.cart)
@@ -40,11 +41,13 @@ const CartBody = () => {
 				cart?.cart.products.map((item: any) => (
 					<CartItem key={item._id} item={item} />
 				))}
-			{/* TODO: Add context management */}
 			{cart?.success && (
-				<p className='flex items-end justify-end pt-12 text-lg font-bold text-violet-900'>
-					Total: ₹{total}
-				</p>
+				<div className='flex flex-col items-end justify-end pt-12 space-y-4'>
+					<p className='text-lg font-bold text-violet-900'>
+						Total: ₹{total}
+					</p>
+					<Button variant='outline'>Checkout</Button>
+				</div>
 			)}
 		</div>
 	)
