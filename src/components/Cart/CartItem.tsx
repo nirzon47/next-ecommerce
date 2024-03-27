@@ -18,11 +18,12 @@ import { toast } from 'react-toastify'
 import { useState } from 'react'
 import { Trash2 } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '@/app/store/store'
-import { setCartTotal } from '@/app/store/cartSlice'
+import { setCart, setCartTotal } from '@/app/store/cartSlice'
 
 const CartItem = ({ item }: { item: any }) => {
 	const [total, setTotal] = useState<number>(item.item.price * item.quantity)
 	const cartTotal = useAppSelector((state) => state.cart.total)
+	const cart = useAppSelector((state) => state.cart.cart)
 	const dispatch = useAppDispatch()
 
 	const changeQuantity = async (e: any) => {
@@ -48,6 +49,41 @@ const CartItem = ({ item }: { item: any }) => {
 		} catch (error) {
 			console.error(error)
 			toast.error('Failed to update quantity. Maybe your session expired?')
+		}
+	}
+
+	const removeFromCart = async () => {
+		try {
+			await axios.patch(
+				`${process.env.NEXT_PUBLIC_SERVER_URL}/cart/`,
+				{
+					item: item.item._id,
+					variant: item.variant || 'Default',
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('token')}`,
+					},
+				}
+			)
+
+			dispatch(setCartTotal(cartTotal - total))
+			const cartIndex = cart.cart.products.findIndex(
+				(product: any) =>
+					product._id === item._id && product.variant === item.variant
+			)
+			const updatedCartProducts = [...cart.cart.products]
+			updatedCartProducts.splice(cartIndex, 1)
+
+			dispatch(
+				setCart({
+					...cart,
+					cart: { ...cart.cart, products: updatedCartProducts },
+				})
+			)
+			toast.success('Removed from cart')
+		} catch (error) {
+			console.error(error)
 		}
 	}
 
@@ -92,7 +128,10 @@ const CartItem = ({ item }: { item: any }) => {
 						<TooltipProvider>
 							<Tooltip>
 								<TooltipTrigger>
-									<Trash2 className='text-red-500 duration-200 hover:text-red-800' />
+									<Trash2
+										className='text-red-500 duration-200 hover:text-red-800'
+										onClick={removeFromCart}
+									/>
 								</TooltipTrigger>
 								<TooltipContent>
 									<p>Remove from cart</p>

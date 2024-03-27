@@ -1,14 +1,13 @@
 'use client'
 
-import { CartReq } from '@/lib/types'
 import axios from 'axios'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import CartItem from './CartItem'
 import { useAppDispatch, useAppSelector } from '@/app/store/store'
-import { setCartTotal } from '@/app/store/cartSlice'
+import { setCart, setCartTotal } from '@/app/store/cartSlice'
 
 const CartBody = () => {
-	const [cart, setCart] = useState<CartReq>()
+	const cart = useAppSelector((state) => state.cart.cart)
 	const total = useAppSelector((state) => state.cart.total)
 	const dispatch = useAppDispatch()
 
@@ -23,7 +22,7 @@ const CartBody = () => {
 				}
 			)
 
-			setCart(data)
+			dispatch(setCart(data))
 			dispatch(setCartTotal(data?.total))
 		} catch (error) {
 			console.log(error)
