@@ -72,7 +72,10 @@ const Header = () => {
 							Login
 						</Button>
 					)}
-					<ShoppingCartIcon className='duration-200 cursor-pointer text-violet-50 hover:text-violet-300' />
+					<ShoppingCartIcon
+						className='duration-200 cursor-pointer text-violet-50 hover:text-violet-300'
+						onClick={() => router.push('/cart')}
+					/>
 				</div>
 			</div>
 			<SearchBarMobile showSearchBar={showSearchBar} />

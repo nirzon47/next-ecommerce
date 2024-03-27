@@ -47,3 +47,10 @@ export interface Orders {
 		]
 	}
 }
+
+export interface CartReq {
+	success: boolean
+	message: string
+	cart: any
+	total: number
+}

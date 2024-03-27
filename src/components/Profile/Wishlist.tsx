@@ -33,7 +33,7 @@ const Wishlist = () => {
 					Wishlisting products is free you know :D
 				</p>
 			) : (
-				<div className='grid gap-2 w-80'>
+				<div className='grid gap-2'>
 					{products.map((product: any) => (
 						<WishlistProductCard key={product._id} product={product} />
 					))}
