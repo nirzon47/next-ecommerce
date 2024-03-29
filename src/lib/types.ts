@@ -1,3 +1,5 @@
+import Razorpay from 'razorpay'
+
 // Interface for decoded token
 export interface DecodedToken {
 	_id: string
@@ -53,4 +55,31 @@ export interface CartReq {
 	message: string
 	cart: any
 	total: number
+}
+
+export interface RazorpayInterface extends Razorpay {
+	on(event: 'payment.failed', handler: (response: any) => void): void
+	open(): void
+}
+
+export interface IRazorpayConfig {
+	key_id: string
+	amount: number
+	currency?: string
+	name: string
+	description?: string
+	image?: string
+	order_id: string
+	handler: (response: any) => void
+	prefill?: {
+		name?: string
+		email?: string
+		contact?: string
+	}
+	notes?: {
+		[key: string]: string
+	}
+	theme?: {
+		color?: string
+	}
 }

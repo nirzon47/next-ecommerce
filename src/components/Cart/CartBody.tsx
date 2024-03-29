@@ -6,11 +6,13 @@ import CartItem from './CartItem'
 import { useAppDispatch, useAppSelector } from '@/app/store/store'
 import { setCart, setCartTotal } from '@/app/store/cartSlice'
 import { Button } from '../ui/button'
+import { useRouter } from 'next/navigation'
 
 const CartBody = () => {
 	const cart = useAppSelector((state) => state.cart.cart)
 	const total = useAppSelector((state) => state.cart.total)
 	const dispatch = useAppDispatch()
+	const router = useRouter()
 
 	const getCart = useCallback(async () => {
 		try {
@@ -46,7 +48,12 @@ const CartBody = () => {
 					<p className='text-lg font-bold text-violet-900'>
 						Total: ₹{total}
 					</p>
-					<Button variant='outline'>Checkout</Button>
+					<Button
+						variant='outline'
+						onClick={() => router.push('/checkout')}
+					>
+						Checkout
+					</Button>
 				</div>
 			)}
 		</div>

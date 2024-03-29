@@ -23,7 +23,13 @@ const formSchema = z.object({
 	zip: z.string(),
 })
 
-const AddressForm = () => {
+const AddressForm = ({
+	showButton,
+	disabled,
+}: {
+	showButton?: boolean
+	disabled?: boolean
+}) => {
 	const [address, setAddress] = useState<any>({})
 	const [hasAddress, setHasAddress] = useState<boolean>(true)
 
@@ -118,6 +124,7 @@ const AddressForm = () => {
 									<FormLabel>Street</FormLabel>
 									<FormControl>
 										<Input
+											disabled={disabled}
 											placeholder='Enter street name'
 											{...field}
 										/>
@@ -132,7 +139,11 @@ const AddressForm = () => {
 								<FormItem>
 									<FormLabel>City</FormLabel>
 									<FormControl>
-										<Input placeholder='Enter city name' {...field} />
+										<Input
+											disabled={disabled}
+											placeholder='Enter city name'
+											{...field}
+										/>
 									</FormControl>
 								</FormItem>
 							)}
@@ -147,6 +158,7 @@ const AddressForm = () => {
 									<FormLabel>District</FormLabel>
 									<FormControl>
 										<Input
+											disabled={disabled}
 											placeholder='Enter district name'
 											{...field}
 										/>
@@ -161,7 +173,11 @@ const AddressForm = () => {
 								<FormItem>
 									<FormLabel>Zip code</FormLabel>
 									<FormControl>
-										<Input placeholder='Enter zip code' {...field} />
+										<Input
+											disabled={disabled}
+											placeholder='Enter zip code'
+											{...field}
+										/>
 									</FormControl>
 								</FormItem>
 							)}
@@ -176,6 +192,7 @@ const AddressForm = () => {
 									<FormLabel>State</FormLabel>
 									<FormControl>
 										<Input
+											disabled={disabled}
 											placeholder='Enter state name'
 											{...field}
 										/>
@@ -191,6 +208,7 @@ const AddressForm = () => {
 									<FormLabel>Country</FormLabel>
 									<FormControl>
 										<Input
+											disabled={disabled}
 											placeholder='Enter country name'
 											{...field}
 										/>
@@ -199,9 +217,11 @@ const AddressForm = () => {
 							)}
 						/>
 					</div>
-					<Button type='submit' onClick={handleAddressChange}>
-						{!hasAddress ? 'Add Address' : 'Update Address'}
-					</Button>
+					{showButton && (
+						<Button type='submit' onClick={handleAddressChange}>
+							{!hasAddress ? 'Add Address' : 'Update Address'}
+						</Button>
+					)}
 				</form>
 			</Form>
 		</section>

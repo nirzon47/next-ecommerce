@@ -33,7 +33,7 @@ const Profile = () => {
 					<h2 className='my-2 mt-4 text-lg font-semibold text-center md:text-xl lg:text-2xl text-violet-900'>
 						Address
 					</h2>
-					<AddressForm />
+					<AddressForm disabled={false} showButton={true} />
 				</section>
 				<section className='space-y-6'>
 					<h2 className='text-xl font-bold text-center md:text-2xl lg:text-3xl text-violet-950'>
